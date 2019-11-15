@@ -1,6 +1,6 @@
 # Copyrights (c) Charles Le Losq 2017
 import numpy as np
-import os
+import os, sys
 
 import matplotlib
 matplotlib.use('Agg') # non interactive renderer
@@ -20,6 +20,7 @@ def data_prep(spectra_liste,choice,start_path,out_path,**kwargs):
     # getting options
     switch_type = kwargs.get("switch_type","xy") # Switching between the plot or xy mode
     switch_baseline = kwargs.get("baseline",False) # In case the baseline is wanted
+    delimiter = kwargs.get("delimiter",",") # In case the baseline is wanted
 
     # getting the index
     print("Getting the interesting data...")
@@ -34,7 +35,7 @@ def data_prep(spectra_liste,choice,start_path,out_path,**kwargs):
     xcommon = np.arange(200,1200,1.0)
     output_bulk_array = np.zeros((len(idx_liste),len(xcommon)))
     output_labels = []
-
+    
     print("Processing the interesting data...")
     for i in tqdm(range(len(idx_liste))):
         idx = idx_liste[i]
@@ -55,7 +56,7 @@ def data_prep(spectra_liste,choice,start_path,out_path,**kwargs):
         #
         # Data importation, baseline treatment, and normalisation
         #
-        spectrum = np.genfromtxt(start_path+spectra_liste['filename'][idx],delimiter=',',skip_header=10)
+        spectrum = np.genfromtxt(start_path+spectra_liste['filename'][idx],delimiter=delimiter,skip_header=10)
 
         if switch_baseline == True:
             out1, out2 = rampy.baseline(spectrum[:,0],spectrum[:,1],np.array([[0,1600]]),"als",lam=10.0**5)
@@ -111,7 +112,7 @@ def data_prep(spectra_liste,choice,start_path,out_path,**kwargs):
         elif switch_type == "sklearn":
             # For the X output = the spectrum
             f = scipy.interpolate.interp1d(x,y,bounds_error=False,fill_value=0.0) # y values outside the observed x are put to 0.
-            output_bulk_array[i,:] = f(xcommon)/np.sum(f(xcommon))
+            output_bulk_array[i,:] = f(xcommon)/np.max(f(xcommon))
 
             # For the Y output = the labels
             label = int(choice[choice['mineral'] == spectra_liste['mineral'][idx]]['label'])
@@ -155,7 +156,7 @@ def main():
 
     data_prep(spectra_liste,choice,r'./data/excellent_unoriented/',r'./data/excellent_unoriented/',switch_type='sklearn',baseline=True)
 
-    data_prep(spectra_liste_naturals,choice,r'./data/To_Recognize/',r'./data/To_Recognize/',switch_type='sklearn',baseline=True)
+    #data_prep(spectra_liste_naturals,choice,r'./data/To_Recognize/',r'./data/To_Recognize/',switch_type='sklearn',delimiter=" ",baseline=True)
 
 
 if __name__ == "__main__":
