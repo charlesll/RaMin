@@ -35,7 +35,7 @@ def data_prep(spectra_liste,choice,start_path,out_path,**kwargs):
     xcommon = np.arange(200,1200,1.0)
     output_bulk_array = np.zeros((len(idx_liste),len(xcommon)))
     output_labels = []
-    
+
     print("Processing the interesting data...")
     for i in tqdm(range(len(idx_liste))):
         idx = idx_liste[i]
@@ -154,9 +154,9 @@ def main():
     # For scikit-learn treatment
     #
 
-    data_prep(spectra_liste,choice,r'./data/excellent_unoriented/',r'./data/excellent_unoriented/',switch_type='sklearn',baseline=True)
+    #data_prep(spectra_liste,choice,r'./data/excellent_unoriented/',r'./data/excellent_unoriented/',switch_type='sklearn',baseline=True)
 
-    #data_prep(spectra_liste_naturals,choice,r'./data/To_Recognize/',r'./data/To_Recognize/',switch_type='sklearn',delimiter=" ",baseline=True)
+    data_prep(spectra_liste_naturals,choice,r'./data/To_Recognize/spectra/',r'./data/To_Recognize/',switch_type='sklearn',delimiter=" ",baseline=True)
 
 
 if __name__ == "__main__":
