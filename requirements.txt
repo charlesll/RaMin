@@ -5,6 +5,5 @@ pandas
 sklearn
 pymc3
 keras
-pickle
 theano
 voila
