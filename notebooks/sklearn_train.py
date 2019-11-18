@@ -29,8 +29,8 @@ from sklearn.ensemble import BaggingClassifier
 # Data importation
 #
 
-X = np.load('./data/excellent_unoriented/obs.npy')
-y = pickle.load( open( "./data/excellent_unoriented/labels.pkl", "rb" ) )
+X = np.load('../data/excellent_unoriented/obs.npy')
+y = pickle.load( open( "../data/excellent_unoriented/labels.pkl", "rb" ) )
 
 
 #
