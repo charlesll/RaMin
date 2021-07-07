@@ -17,6 +17,9 @@ from keras.layers import Conv1D, GlobalMaxPooling1D, MaxPooling1D
 from keras.layers import LSTM
 from keras.callbacks import EarlyStopping
 
+from keras import backend as K
+print(K.tensorflow_backend._get_available_gpus())
+
 import matplotlib.pyplot as plt
 
 import pandas as pd
